@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wissal — Préparer une campagne WhatsApp</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#172b25;--green:#176b51;--mint:#e8f5ef;--line:#e3ebe6;--muted:#718078;--paper:#f5f8f6}
+    *{box-sizing:border-box} body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif}
+    .navbar{background:#fff;border-bottom:1px solid var(--line)} .brand-mark{width:38px;height:38px;border-radius:13px;background:var(--green);color:white;display:grid;place-items:center;font-weight:700;font-size:19px}
+    .container-main{max-width:1120px}.hero{padding:38px 0 25px}.hero h1{font-size:clamp(1.65rem,3vw,2.2rem);font-weight:700;letter-spacing:-.04em}.hero p{color:var(--muted);max-width:690px;margin:8px 0 0;line-height:1.9}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 20px #173a2810}.panel-head{padding:19px 22px;border-bottom:1px solid var(--line)}.panel-body{padding:22px}
+    .step{display:inline-grid;place-items:center;width:29px;height:29px;border-radius:10px;background:var(--mint);color:var(--green);font-weight:700;margin-right:9px}.form-label{font-weight:600}.form-control,.form-select{border-color:#dbe5df;border-radius:11px;padding:.72rem .9rem}.form-control:focus{border-color:#70b89b;box-shadow:0 0 0 .2rem #176b5118}.hint{color:var(--muted);font-size:.88rem;line-height:1.75}.btn-success{background:var(--green);border-color:var(--green)}.btn-success:hover{background:#10563f;border-color:#10563f}.btn-outline-secondary{border-color:#dbe5df;color:#3d5148}
+    .count-box{border-radius:12px;background:#f7faf8;padding:12px 15px}.count-num{font-size:1.3rem;font-weight:700}.preview{border-radius:16px;background:#eaf5ee;padding:17px;min-height:160px}.bubble{background:#fff;border-radius:14px 14px 14px 4px;padding:14px;box-shadow:0 2px 6px #0000000b;white-space:pre-wrap;line-height:1.8;min-height:80px}.files{display:flex;flex-wrap:wrap;gap:8px}.file-chip{background:#f1f6f3;border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:.83rem}.notice{background:#fff9e9;border:1px solid #f1e3b7;color:#685322;border-radius:13px;padding:14px 16px;line-height:1.8}.footer{color:var(--muted);font-size:.82rem;padding:26px 0 40px}.invalid-list{max-height:160px;overflow:auto;font-size:.85rem}
+  </style>
+</head>
+<body>
+<nav class="navbar"><div class="container container-main py-2 d-flex align-items-center gap-2"><div class="brand-mark">W</div><div><div class="fw-bold">Wissal</div><div class="text-secondary" style="font-size:.77rem">Préparation de campagnes WhatsApp</div></div><span class="badge rounded-pill text-bg-light border ms-auto">Outil local</span></div></nav>
+<main class="container container-main">
+  <header class="hero"><h1>Préparez un message pour vos clients fidèles</h1><p>Ajoutez votre liste de clients, rédigez votre actualité ou votre offre et joignez vos fichiers pour prévisualiser et organiser la campagne. Les données sont traitées dans cette page et ne sont pas envoyées automatiquement à WhatsApp.</p></header>
+  <div class="notice mb-4"><strong>Important :</strong> l’envoi groupé direct n’est pas possible avec un simple fichier HTML. Pour envoyer officiellement des messages, photos, vidéos et fichiers audio, reliez cette page à un serveur utilisant la <b>WhatsApp Business Platform</b>. Obtenez le consentement préalable des clients et utilisez des modèles approuvés pour les messages que votre entreprise initie. Ne placez jamais votre jeton d’accès secret dans cette page.</div>
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <section class="panel mb-4"><div class="panel-head"><h2 class="h5 mb-0"><span class="step">1</span>Liste de clients</h2></div><div class="panel-body">
+        <label for="numbers" class="form-label">Numéros de téléphone avec indicatif international</label><textarea id="numbers" class="form-control" rows="6" placeholder="Exemple :\n+33612345678\n+32470123456\nSéparez les numéros par un retour à la ligne ou une virgule"></textarea>
+        <div class="d-flex flex-wrap gap-2 mt-3 align-items-center"><label class="btn btn-outline-secondary btn-sm mb-0">Importer un CSV<input id="csvFile" type="file" accept=".csv,text/csv" hidden></label><button id="checkBtn" class="btn btn-success btn-sm">Vérifier les numéros</button><button id="clearBtn" class="btn btn-outline-secondary btn-sm">Effacer la liste</button><button id="exportBtn" class="btn btn-outline-secondary btn-sm ms-auto">Télécharger les numéros</button></div>
+        <p class="hint mt-3 mb-3">Utilisez le format international, par exemple +33612345678. Vous pouvez séparer les numéros par des retours à la ligne ou des virgules ; les doublons sont ignorés.</p>
+        <div class="row g-2"><div class="col-6"><div class="count-box"><div class="hint">Numéros valides et uniques</div><div id="validCount" class="count-num">0</div></div></div><div class="col-6"><div class="count-box"><div class="hint">À vérifier / doublons</div><div id="issueCount" class="count-num">0</div></div></div></div>
+        <div id="issues" class="invalid-list mt-2"></div>
+      </div></section>
+      <section class="panel"><div class="panel-head"><h2 class="h5 mb-0"><span class="step">2</span>Contenu de la campagne</h2></div><div class="panel-body">
+        <label for="message" class="form-label">Texte du message</label><textarea id="message" class="form-control" rows="5" maxlength="4096" placeholder="Présentez vos nouveaux produits ou votre offre spéciale…"></textarea><div class="hint text-end mt-1"><span id="charCount">0</span> / 4096</div>
+        <div class="mt-3"><label for="media" class="form-label">Photos, vidéos ou enregistrements audio</label><input id="media" class="form-control" type="file" multiple accept="image/*,video/*,audio/*"><div class="hint mt-2">Les fichiers sont sélectionnés pour l’aperçu uniquement. Leur envoi nécessite un serveur sécurisé connecté à la WhatsApp Business Platform.</div><div id="fileList" class="files mt-3"></div></div>
+      </div></section>
+    </div>
+    <div class="col-lg-5"><section class="panel sticky-lg-top" style="top:18px"><div class="panel-head"><h2 class="h5 mb-0">Aperçu et préparation</h2></div><div class="panel-body">
+      <div class="preview"><div class="d-flex align-items-center gap-2 mb-3"><div class="brand-mark" style="width:30px;height:30px;border-radius:10px;font-size:14px">W</div><div class="fw-semibold">Aperçu du message</div></div><div id="previewText" class="bubble">Votre message apparaîtra ici…</div><div id="previewMedia" class="files mt-2"></div></div>
+      <div class="d-grid gap-2 mt-4"><button id="prepareBtn" class="btn btn-success">Préparer la campagne et exporter le récapitulatif</button></div><p class="hint mt-3 mb-0">Ce bouton n’envoie aucun message. Il télécharge localement un récapitulatif de la campagne, du nombre de numéros et des fichiers sélectionnés.</p>
+      <hr><div class="small fw-semibold mb-2">Avant l’envoi</div><ul class="hint ps-3 mb-0"><li>Vérifiez que chaque client a consenti à recevoir vos actualités.</li><li>Proposez un moyen simple de se désabonner.</li><li>Utilisez les modèles approuvés pour les messages initiés par votre entreprise.</li></ul>
+    </div></section></div>
+  </div>
+  <footer class="footer">Wissal — outil local de préparation. Les numéros des clients ne sont ni enregistrés sur un serveur ni transmis à un tiers.</footer>
+</main>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id), numbers=$('numbers'), message=$('message'); let valid=[];
+ const normalize=x=>x.trim().replace(/[\s().-]/g,'');
+ function parse(){const raw=numbers.value.split(/[\n,;،]+/).map(normalize).filter(Boolean), seen=new Set(), good=[], issues=[];for(const n of raw){if(seen.has(n)){issues.push(`${n} — doublon`);continue}seen.add(n);if(/^\+?[1-9]\d{7,14}$/.test(n))good.push(n.startsWith('+')?n:'+'+n);else issues.push(`${n} — format incorrect (ajoutez l’indicatif du pays)`)}valid=good;$('validCount').textContent=String(good.length);$('issueCount').textContent=String(issues.length);$('issues').innerHTML=issues.length?'<div class="text-danger mt-2">'+issues.map(x=>`<div>• ${escapeHtml(x)}</div>`).join('')+'</div>':'<div class="text-success mt-2">'+(raw.length?'Aucun numéro à vérifier.':'')+'</div>';}
+ function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+ function updatePreview(){ $('previewText').textContent=message.value||'Votre message apparaîtra ici…';$('charCount').textContent=String(message.value.length); }
+ function listFiles(){const fs=[...$('media').files];$('fileList').innerHTML=fs.map(f=>`<span class="file-chip">${escapeHtml(f.name)} · ${formatSize(f.size)}</span>`).join('');$('previewMedia').innerHTML=fs.map(f=>`<span class="file-chip">${escapeHtml(f.type.split('/')[0]||'Fichier')} : ${escapeHtml(f.name)}</span>`).join('')}
+ function formatSize(n){return n<1048576?Math.round(n/1024)+' Ko':(n/1048576).toFixed(1)+' Mo'}
+ $('checkBtn').onclick=parse;$('clearBtn').onclick=()=>{numbers.value='';parse()};numbers.addEventListener('input',parse);message.addEventListener('input',updatePreview);$('media').addEventListener('change',listFiles);
+ $('csvFile').addEventListener('change',async e=>{const f=e.target.files[0];if(f){numbers.value+=(numbers.value?'\n':'')+await f.text();parse();e.target.value=''}});
+ $('exportBtn').onclick=()=>{parse();if(!valid.length){alert('Ajoutez d’abord des numéros valides.');return}download('whatsapp-contacts.csv','phone\n'+valid.map(x=>'"'+x+'"').join('\n'))};
+ $('prepareBtn').onclick=()=>{parse();if(!valid.length&&!message.value.trim()&&!$('media').files.length){alert('Ajoutez des numéros, un message ou un fichier avant de préparer la campagne.');return}const payload={createdAt:new Date().toISOString(),recipients:valid,message:message.value,media:[...$('media').files].map(f=>({name:f.name,type:f.type,size:f.size})),note:'Récapitulatif de préparation uniquement ; aucun message n’a été envoyé.'};download('whatsapp-campaign-summary.json',JSON.stringify(payload,null,2));};
+ function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+ parse();updatePreview();
+})();
+</script>
+</body>
+</html>
